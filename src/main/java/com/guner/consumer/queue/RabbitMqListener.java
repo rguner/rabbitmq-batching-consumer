@@ -7,6 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * https://docs.spring.io/spring-amqp/docs/current/reference/html/#receiving-batch
  */
@@ -20,23 +22,28 @@ public class RabbitMqListener {
     /**
      * without any containerFactory, it consumes message one by one
      */
-
-
+    /*
     @RabbitListener(queues = {"${batch-consumer.queue.name.batch-queue}"})
     public void receiveMessage(ChargingRecord chargingRecord) {
         log.debug("Charging: Received <{} {}> , thread: {}", chargingRecord.getSourceGsm(), chargingRecord.getTargetGsm(), Thread.currentThread().getName());
         chargingRecordService.createChargingRecord(chargingRecord);
     }
-
+     */
 
     /*
+    @RabbitListener(queues = "${batch-consumer.queue.name.batch-queue}", containerFactory = "rabbitBatchListenerContainerFactory")
+    public void listenBatch(List<ChargingRecord> listChargingRecord) {
+        log.debug("Charging List: Received <{} {}> , thread: {}", listChargingRecord.size(), Thread.currentThread().getName());
+        listChargingRecord.forEach(chargingRecord -> chargingRecordService.createChargingRecord(chargingRecord));
+    }
+
+     */
+
     @RabbitListener(queues = {"${batch-consumer.queue.name.batch-queue}"}, containerFactory = "rabbitListenerContainerFactory")
     public void receiveMessage(ChargingRecord chargingRecord) {
         log.debug("Charging: Received <{} {}> , thread: {}", chargingRecord.getSourceGsm(), chargingRecord.getTargetGsm(), Thread.currentThread().getName());
         chargingRecordService.createChargingRecord(chargingRecord);
     }
-
-     */
 
 
 }

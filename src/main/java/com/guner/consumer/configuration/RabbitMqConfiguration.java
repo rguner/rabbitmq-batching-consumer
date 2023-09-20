@@ -52,28 +52,26 @@ public class RabbitMqConfiguration {
     }
 
 
-    /*
     @Bean
     public SimpleRabbitListenerContainerFactory rabbitListenerContainerFactory(ConnectionFactory connectionFactory) {
         SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
         factory.setConnectionFactory(connectionFactory);
+        factory.setMessageConverter(converter());
         factory.setDeBatchingEnabled(true);
         return factory;
     }
 
-     */
-
-/*
     @Bean
     public SimpleRabbitListenerContainerFactory rabbitBatchListenerContainerFactory(ConnectionFactory connectionFactory) {
         SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
         factory.setConnectionFactory(connectionFactory);
+        factory.setMessageConverter(converter());
         factory.setBatchListener(true); // configures a BatchMessageListenerAdapter
-        factory.setBatchSize(2);
-        factory.setConsumerBatchEnabled(true);
+        //factory.setBatchSize(2);
+        //factory.setConsumerBatchEnabled(true);
         return factory;
     }
 
- */
+
 
 }
