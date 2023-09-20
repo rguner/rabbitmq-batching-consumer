@@ -7,6 +7,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Service;
 
+/**
+ * https://docs.spring.io/spring-amqp/docs/current/reference/html/#receiving-batch
+ */
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -15,13 +18,25 @@ public class RabbitMqListener {
     private final ChargingRecordService chargingRecordService;
 
     /**
-     * inserts charging table
-     * if exception occurs message is rollbacked
-     * @param chargingRecord
+     * without any containerFactory, it consumes message one by one
      */
+
+
     @RabbitListener(queues = {"${batch-consumer.queue.name.batch-queue}"})
     public void receiveMessage(ChargingRecord chargingRecord) {
-        log.debug("Charging: Received <{} {}>", chargingRecord.getSourceGsm(), chargingRecord.getTargetGsm());
+        log.debug("Charging: Received <{} {}> , thread: {}", chargingRecord.getSourceGsm(), chargingRecord.getTargetGsm(), Thread.currentThread().getName());
         chargingRecordService.createChargingRecord(chargingRecord);
     }
+
+
+    /*
+    @RabbitListener(queues = {"${batch-consumer.queue.name.batch-queue}"}, containerFactory = "rabbitListenerContainerFactory")
+    public void receiveMessage(ChargingRecord chargingRecord) {
+        log.debug("Charging: Received <{} {}> , thread: {}", chargingRecord.getSourceGsm(), chargingRecord.getTargetGsm(), Thread.currentThread().getName());
+        chargingRecordService.createChargingRecord(chargingRecord);
+    }
+
+     */
+
+
 }

@@ -3,6 +3,7 @@ package com.guner.consumer.configuration;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.batch.BatchingStrategy;
 import org.springframework.amqp.rabbit.batch.SimpleBatchingStrategy;
+import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.BatchingRabbitTemplate;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -50,24 +51,29 @@ public class RabbitMqConfiguration {
         return new Jackson2JsonMessageConverter();
     }
 
+
     /*
     @Bean
-    public AmqpTemplate amqpTemplate(ConnectionFactory connectionFactory) {
-        RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
-        rabbitTemplate.setMessageConverter(converter());
-        return rabbitTemplate;
+    public SimpleRabbitListenerContainerFactory rabbitListenerContainerFactory(ConnectionFactory connectionFactory) {
+        SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
+        factory.setConnectionFactory(connectionFactory);
+        factory.setDeBatchingEnabled(true);
+        return factory;
     }
 
      */
 
-
+/*
     @Bean
-    public BatchingRabbitTemplate batchingRabbitTemplate(ConnectionFactory connectionFactory) {
-        //BatchingStrategy strategy = new SimpleBatchingStrategy(500, 25_000, 3_000);
-        BatchingStrategy strategy = new SimpleBatchingStrategy(5, 25_000, 20_000);
-        TaskScheduler scheduler = new ConcurrentTaskScheduler();
-        BatchingRabbitTemplate batchingRabbitTemplate = new BatchingRabbitTemplate(connectionFactory, strategy, scheduler);
-        batchingRabbitTemplate.setMessageConverter(converter());
-        return batchingRabbitTemplate;
+    public SimpleRabbitListenerContainerFactory rabbitBatchListenerContainerFactory(ConnectionFactory connectionFactory) {
+        SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
+        factory.setConnectionFactory(connectionFactory);
+        factory.setBatchListener(true); // configures a BatchMessageListenerAdapter
+        factory.setBatchSize(2);
+        factory.setConsumerBatchEnabled(true);
+        return factory;
     }
+
+ */
+
 }
