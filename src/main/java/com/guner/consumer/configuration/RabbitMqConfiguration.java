@@ -68,8 +68,11 @@ public class RabbitMqConfiguration {
         factory.setConnectionFactory(connectionFactory);
         factory.setMessageConverter(converter());
         factory.setBatchListener(true); // configures a BatchMessageListenerAdapter
-        //factory.setBatchSize(2);
-        //factory.setConsumerBatchEnabled(true);
+
+        // factory.setBatchSize(2); birsey değismedi consume tarafında
+
+        //factory.setConsumerBatchEnabled(true); factory.setBatchListener ile aynı sonucu veriyor, zaten icinde setBatchListener calll ediyor
+
         return factory;
     }
 
