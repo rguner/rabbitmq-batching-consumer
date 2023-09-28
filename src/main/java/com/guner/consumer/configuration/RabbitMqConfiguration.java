@@ -67,11 +67,16 @@ public class RabbitMqConfiguration {
         SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
         factory.setConnectionFactory(connectionFactory);
         factory.setMessageConverter(converter());
-        factory.setBatchListener(true); // configures a BatchMessageListenerAdapter
+        factory.setConsumerBatchEnabled(true);
+        //factory.setBatchListener(true) da aynı sonucu veriyor, zaten setConsumerBatchEnabled icinde setBatchListener call ediyor
 
-        // factory.setBatchSize(2); birsey değismedi consume tarafında
+        /**
+         *  sender batch ise setBatchSize'in bir onemi yok. sender single gönderirse receiver'ın batch okmasi için
+         *  setConsumerBatchEnabled(true) demek gerekiyor ve batchSize verilirse o size'da okur
+         */
+        //factory.setConsumerBatchEnabled(true);
+        //factory.setBatchSize(2);
 
-        //factory.setConsumerBatchEnabled(true); factory.setBatchListener ile aynı sonucu veriyor, zaten icinde setBatchListener calll ediyor
 
         return factory;
     }
