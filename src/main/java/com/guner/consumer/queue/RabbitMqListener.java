@@ -51,5 +51,16 @@ public class RabbitMqListener {
     }
      */
 
+    /*
+    uygulama hata veriyor,  rabbitBatchListenerContainerFactory  factory.setBatchListener(true); olduğu için
+     */
+    /*
+    @RabbitListener(queues = "${batch-consumer.queue.name.batch-queue}", containerFactory = "rabbitBatchListenerContainerFactory")
+    public void listenBatchAsDebatch(ChargingRecord chargingRecord) {
+        log.debug("Charging: Received as Debatched <{} {}> , thread: {}", chargingRecord.getSourceGsm(), chargingRecord.getTargetGsm(), Thread.currentThread().getName());
+        chargingRecordService.createChargingRecord(chargingRecord);
+    }
+
+     */
 
 }

@@ -61,6 +61,7 @@ public class RabbitMqConfiguration {
         return factory;
     }
 
+
     @Bean
     public SimpleRabbitListenerContainerFactory rabbitBatchListenerContainerFactory(ConnectionFactory connectionFactory) {
         SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
@@ -71,7 +72,6 @@ public class RabbitMqConfiguration {
         //factory.setConsumerBatchEnabled(true);
         return factory;
     }
-
 
 
 }
