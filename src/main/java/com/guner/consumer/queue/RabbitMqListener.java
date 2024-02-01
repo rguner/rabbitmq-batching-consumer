@@ -4,6 +4,7 @@ import com.guner.consumer.entity.ChargingRecord;
 import com.guner.consumer.service.ChargingRecordService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Service;
 
@@ -38,6 +39,17 @@ public class RabbitMqListener {
         log.debug("Charging List: Received <{} {}> , thread: {}", listChargingRecord.size(), Thread.currentThread().getName());
         listChargingRecord.forEach(chargingRecord -> chargingRecordService.createChargingRecord(chargingRecord));
     }
+
+    /**
+     * with rabbitBatchListenerContainerFactory, it consumes messages as batch. List<Message> is possible but needs to be converted to ChargingRecord
+     */
+    /*
+    @RabbitListener(queues = "${batch-consumer.queue.name.batch-queue}", containerFactory = "rabbitBatchListenerContainerFactory")
+    public void listenBatch(List<Message> messageList) {
+        log.debug("Charging List as Message: Received <{} {}> , thread: {}", messageList.size(), Thread.currentThread().getName());
+        //messageList.forEach(message -> chargingRecordService.createChargingRecord((ChargingRecord)message.getBody());
+    }
+     */
 
 
     /**
