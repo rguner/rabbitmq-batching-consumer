@@ -73,6 +73,11 @@ public class RabbitMqConfiguration {
         /**
          *  sender batch ise setBatchSize'in bir onemi yok. sender single gönderirse receiver'ın batch okmasi için
          *  setConsumerBatchEnabled(true) demek gerekiyor ve batchSize verilirse o size'da okur
+         *  batchSize verilmezse tek item okur her seferinde.
+         *  yani sender single ise batch okumak için setBatchSize mutlaka verilmeli
+         *
+         *  factory.setConsumerBatchEnabled(true);
+         *  factory.setBatchSize(2);
          */
         //factory.setConsumerBatchEnabled(true);
         //factory.setBatchSize(2);
